@@ -10,11 +10,11 @@ class DatabaseConnector {
 
     public function __construct()
     {
-        $url = getenv('DB_URL');
-        $user = getenv('DB_USER');
-        $password = getenv('DB_PASSWORD');
+        $url = getenv('DATABASE_URL');
+        // $user = getenv('DB_USER');
+        // $password = getenv('DB_PASSWORD');
         try {
-            $this->dbConnection = new PDO($url,$user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+            $this->dbConnection = new PDO($url);
             
         } catch (PDOException $e) {
             exit($e->getMessage());
