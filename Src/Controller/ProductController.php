@@ -17,7 +17,7 @@ class ProductController {
         $this->requestMethod = $requestMethod;
         $this->productId = $productId;
 
-        $this->productService = new ProductService($this->$db);
+        $this->productService = new ProductService($this->db);
     }
 
     public function processRequest()
@@ -71,9 +71,15 @@ class ProductController {
         if (! $this->validateProduct($input)) {
             return $this->unprocessableEntityResponse();
         }
-        $this->productService->insert($input);
-        $response['status_code_header'] = 'HTTP/1.1 201 Created';
-        $response['body'] = null;
+        $stmt = $this->productService->insert($input);
+        if($stmt){
+            $response['status_code_header'] = 'HTTP/1.1 201 Created';
+            $response['body'] = null;
+        }
+        else{
+            $response['status_code_header'] = 'HTTP/1.1 400 Bad Request';
+            $response['body'] = null;
+        }
         return $response;
     }
 

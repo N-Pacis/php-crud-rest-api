@@ -7,9 +7,9 @@ class ProductService
 
     private $db = null;
 
-    public function __construct($db)
+    public function __construct($dbconnection)
     {
-        $this->db = $db;
+        $this->db = $dbconnection;
     }
 
     public function findAll()
@@ -23,7 +23,6 @@ class ProductService
 
         try {
             $statement = $this->db->query($statement);
-            print("Statement "+$statement);
             $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
             return $result;
         } catch (\PDOException $e) {
@@ -37,7 +36,7 @@ class ProductService
         SELECT 
         id, SKU, Name, Price,Product_Type,Height,Width,Length,Weight,Size
     FROM
-        products_db
+        products
             WHERE id = ?;
         ";
 
@@ -53,27 +52,30 @@ class ProductService
 
     public function insert(array $input)
     {
-        $statement = "
-            INSERT INTO products_db
+        $query = "
+            INSERT INTO products
                 (SKU, Name, Price,Product_Type,Height,Width,Length,Weight,Size)
             VALUES
                 (:SKU, :Name, :Price,:Product_Type,:Height,:Width,:Length,:Weight,:Size);
         ";
 
         try {
-            $statement = $this->db->prepare($statement);
-            $statement->execute(array(
-                'SKU' => $input['SKU'],
-                'Name'  => $input['Name'],
-                'Price'  => $input['Price'],
-                'Product_Type'  => $input['Product_Type'],
-                'Height' => $input['Height'] ?? null,
-                'Width' => $input['Width'] ?? null,
-                'Length' => $input['Length'] ?? null,
-                'Weight' => $input['Weight'] ?? null,
-                'Size' => $input['Size'] ?? null,
-            ));
-            return $statement->rowCount();
+            $statement = $this->db->prepare($query);
+            $statement->bindParam(":SKU",$input['SKU']);
+            $statement->bindParam(":Name",$input['Name']);
+            $statement->bindParam(":Price",$input['Price']);
+            $statement->bindParam(":Product_Type",$input['Product_Type']);
+            $statement->bindParam(":Height",$input['Height']);
+            $statement->bindParam(":Weight",$input['Weight']);
+            $statement->bindParam(":Length",$input['Length']);
+            $statement->bindParam(":Size",$input['Size']);
+            $statement->bindParam(":Width",$input['Width']);
+
+            if($statement->execute()) {
+                return true;
+            }
+            return false;
+            
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }
@@ -82,7 +84,7 @@ class ProductService
     public function delete($id)
     {
         $statement = "
-            DELETE FROM products_db
+            DELETE FROM products
             WHERE id = :id;
         ";
 
