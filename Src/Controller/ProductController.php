@@ -28,7 +28,7 @@ class ProductController {
             case 'POST':
                 $response = $this->registerProduct();
                 break;
-            case 'DELETE':
+            case 'PUT':
                 $response = $this->deleteProduct();
                 break;
             case 'OPTIONS':
