@@ -7,15 +7,13 @@ class ProductController {
 
     private $db;
     private $requestMethod;
-    private $productId;
 
     private $productService;
 
-    public function __construct($db, $requestMethod, $productId)
+    public function __construct($db, $requestMethod)
     {
         $this->db = $db;
         $this->requestMethod = $requestMethod;
-        $this->productId = $productId;
 
         $this->productService = new ProductService($this->db);
     }
@@ -24,18 +22,14 @@ class ProductController {
     {
         
         switch ($this->requestMethod) {
-            case 'GET':
-                if ($this->productId) {
-                    $response = $this->getProduct($this->productId);
-                } else {
-                    $response = $this->getAllProducts();
-                };
+            case 'GET':                
+                $response = $this->getAllProducts();
                 break;
             case 'POST':
                 $response = $this->registerProduct();
                 break;
             case 'DELETE':
-                $response = $this->deleteProduct($this->productId);
+                $response = $this->deleteProduct(1);
                 break;
             case 'OPTIONS':
                 break;
@@ -56,18 +50,6 @@ class ProductController {
         $response['body'] = json_encode($result);
         return $response;
     }
-
-    private function getProduct($id)
-    {
-        $result = $this->productService->find($id);
-        if (! $result) {
-            return $this->notFoundResponse();
-        }
-        $response['status_code_header'] = 'HTTP/1.1 200 OK';
-        $response['body'] = json_encode($result);
-        return $response;
-    }
-
     private function registerProduct()
     {
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);

@@ -12,16 +12,6 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', $uri);
 
-// if ($uri[1] !== 'products') {
-//     header("HTTP/1.1 404 Not Found");
-//     exit();
-// }
-$productId = null;
-
-// if (isset($uri[2])) {
-//     $productId = (int) $uri[2];
-// }
-
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
 $dbConnection->exec('CREATE TABLE IF NOT EXISTS products (
@@ -36,5 +26,5 @@ $dbConnection->exec('CREATE TABLE IF NOT EXISTS products (
     Width INT DEFAULT NULL,
     Length INT DEFAULT NULL
 );');
-$controller = new ProductController($dbConnection, $requestMethod, $productId);
+$controller = new ProductController($dbConnection, $requestMethod);
 $controller->processRequest();
