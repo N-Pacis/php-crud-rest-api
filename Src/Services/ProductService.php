@@ -60,16 +60,23 @@ class ProductService
         ";
 
         try {
+            $price = (int) $input['price'];
+            $height = (int) $input['height'];
+            $width = (int) $input['width'];
+            $length = (int) $input['length'];
+            $weight = (int) $input['weight'];
+            $size = (int) $input['size'];
+
             $statement = $this->db->prepare($query);
-            $statement->bindParam(":SKU",$input['SKU']);
-            $statement->bindParam(":Name",$input['Name']);
-            $statement->bindParam(":Price",$input['Price']);
-            $statement->bindParam(":Product_Type",$input['Product_Type']);
-            $statement->bindParam(":Height",$input['Height']);
-            $statement->bindParam(":Weight",$input['Weight']);
-            $statement->bindParam(":Length",$input['Length']);
-            $statement->bindParam(":Size",$input['Size']);
-            $statement->bindParam(":Width",$input['Width']);
+            $statement->bindParam(":SKU",$input['sku']);
+            $statement->bindParam(":Name",$input['name']);
+            $statement->bindParam(":Price",$price);
+            $statement->bindParam(":Product_Type",$input['productType']);
+            $statement->bindParam(":Height",$height);
+            $statement->bindParam(":Weight",$weight);
+            $statement->bindParam(":Length",$length);
+            $statement->bindParam(":Size",$size);
+            $statement->bindParam(":Width",$width);
 
             if($statement->execute()) {
                 return true;

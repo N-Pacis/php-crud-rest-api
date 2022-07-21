@@ -36,6 +36,8 @@ class ProductController {
             case 'DELETE':
                 $response = $this->deleteProduct($this->productId);
                 break;
+            case 'OPTIONS':
+                break;
             default:
                 $response = $this->notFoundResponse();
                 break;
@@ -97,7 +99,7 @@ class ProductController {
 
     private function validateProduct($input)
     {
-        if (! isset($input['SKU']) || ! isset($input['Name']) || !isset($input['Price'])) {
+        if (! isset($input['sku']) || ! isset($input['name']) || !isset($input['price'])) {
             return false;
         }
         return true;
