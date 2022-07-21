@@ -22,6 +22,7 @@ class ProductController {
 
     public function processRequest()
     {
+        
         switch ($this->requestMethod) {
             case 'GET':
                 if ($this->productId) {
@@ -39,7 +40,7 @@ class ProductController {
             case 'OPTIONS':
                 break;
             default:
-                $response =  file_put_contents("php://output", "Hello get");;
+                $response = $this->notFoundResponse();
                 break;
         }
         header($response['status_code_header']);
