@@ -22,6 +22,7 @@ class ProductController {
 
     public function processRequest()
     {
+        file_put_contents("php://output", "Hello get");
         switch ($this->requestMethod) {
             case 'GET':
                 if ($this->productId) {
