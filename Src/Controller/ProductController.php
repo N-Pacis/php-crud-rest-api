@@ -29,7 +29,7 @@ class ProductController {
                 $response = $this->registerProduct();
                 break;
             case 'DELETE':
-                $response = $this->deleteProduct(1);
+                $response = $this->deleteProduct();
                 break;
             case 'OPTIONS':
                 break;
@@ -68,13 +68,17 @@ class ProductController {
         return $response;
     }
 
-    private function deleteProduct($id)
+    private function deleteProduct()
     {
-        $result = $this->productService->find($id);
-        if (! $result) {
-            return $this->notFoundResponse();
+        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+        $ids = $input['ids'];
+        foreach ($ids as $id) {
+            $result = $this->productService->find($id);
+            if (! $result) {
+                return $this->notFoundResponse();
+            }
+            $this->productService->delete($id);
         }
-        $this->productService->delete($id);
         $response['status_code_header'] = 'HTTP/1.1 200 OK';
         $response['body'] = null;
         return $response;
