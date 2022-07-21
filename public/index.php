@@ -25,7 +25,7 @@ if (isset($uri[2])) {
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
 $dbConnection->exec('CREATE TABLE IF NOT EXISTS products (
-    id SERIAL PRIMARY KEY,
+    id INT  PRIMARY KEY AUTO_INCREMENT,
     SKU VARCHAR(100) NOT NULL UNIQUE,
     Name VARCHAR(100) NOT NULL,
     Product_Type VARCHAR(100) NOT NULL,

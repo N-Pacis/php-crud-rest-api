@@ -1,22 +1,25 @@
 <?php
 namespace Src\System;
 
-use PDO;
-use PDOException;
-
 class DatabaseConnector {
 
     private $dbConnection = null;
 
     public function __construct()
     {
-        $url = getenv('DB_URL');
+        $host = getenv('DB_HOST');
+        $port = getenv('DB_PORT');
+        $db   = getenv('DB_DATABASE');
         $user = getenv('DB_USER');
-        $password = getenv('DB_PASSWORD');
+        $pass = getenv('DB_PASSWORD');
+
         try {
-            $this->dbConnection = new PDO($url,$user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-            
-        } catch (PDOException $e) {
+            $this->dbConnection = new \PDO(
+                "mysql:host=$host;port=$port;dbname=$db",
+                $user,
+                $pass
+            );
+        } catch (\PDOException $e) {
             exit($e->getMessage());
         }
     }
