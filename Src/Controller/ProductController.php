@@ -1,14 +1,16 @@
 <?php
 namespace Src\Controller;
 
+use Src\Models\Product;
 use Src\ServiceImpls\ProductServiceImpl;
+use Src\Services\ProductService;
 
 class ProductController {
 
     private $db;
     private $requestMethod;
 
-    private $productService;
+    private ProductService $productService;
 
     public function __construct($db, $requestMethod)
     {
@@ -50,13 +52,20 @@ class ProductController {
         $response['body'] = json_encode($result);
         return $response;
     }
+
     private function registerProduct()
     {
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
         if (! $this->validateProduct($input)) {
             return $this->unprocessableEntityResponse();
         }
-        $stmt = $this->productService->insert($input);
+        if ($this->checkProductExistence($input['sku'])){
+            return $this->productAlreadyExists($input['sku']);
+        }
+
+        $product = Product::initializeValues($input['sku'], $input['name'], (float) $input['price'],$input['productType'],(float) $input['height'],(float) $input['width'],(float) $input['length'],(float) $input['weight'],(float) $input['size']);
+
+        $stmt = $this->productService->insert($product);
         if($stmt){
             $response['status_code_header'] = 'HTTP/1.1 201 Created';
             $response['body'] = null;
@@ -92,11 +101,28 @@ class ProductController {
         return true;
     }
 
+    private function checkProductExistence($sku){
+        $result = $this->productService->findBySku($sku);
+        if ($result) {
+            return true;
+        }
+        return false;
+    }
+
     private function unprocessableEntityResponse()
     {
         $response['status_code_header'] = 'HTTP/1.1 422 Unprocessable Entity';
         $response['body'] = json_encode([
             'error' => 'Invalid input'
+        ]);
+        return $response;
+    }
+
+    private function productAlreadyExists(String $sku)
+    {
+        $response['status_code_header'] = 'HTTP/1.1 400 Bad Request';
+        $response['body'] = json_encode([
+            'error' => 'Product with SKU ' . $sku . ' already exists'
         ]);
         return $response;
     }

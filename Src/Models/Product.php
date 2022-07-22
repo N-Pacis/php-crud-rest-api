@@ -3,40 +3,44 @@ namespace Src\Models;
 
 class Product {
 
-    private $SKU;
-    private $Name;
-    private $Price;
-    private $ProductType;
-    private $Height;
-    private $Width;
-    private $Length;
-    private $Weight;
-    private $Size;
+    private String $productSKU;
+    private String $productName;
+    private Float $productPrice;
+    private String $ProductType;
+    private Float $productHeight;
+    private Float $productWidth;
+    private Float $productLength;
+    private Float $productWeight;
+    private Float $productSize;
 
-    public function __construct($SKU, $Name, $Price, $ProductType, $Height, $Width, $Length, $Weight, $Size)
-    {
-        $this->SKU = $SKU;
-        $this->Name = $Name;
-        $this->Price = $Price;
-        $this->ProductType = $ProductType;
-        $this->Height = $Height;
-        $this->Width = $Width;
-        $this->Length = $Length;
-        $this->Weight = $Weight;
-        $this->Size = $Size;
+    public static function initializeValues(String $productSKU, String $productName, Float $productPrice, String $ProductType, Float $productHeight, Float $productWidth, Float $productLength, Float $productWeight, Float $productSize) {
+        $instance = new self();
+
+        $instance->productSKU = $productSKU;
+        $instance->productName = $productName;
+        $instance->productPrice = $productPrice;
+        $instance->ProductType = $ProductType;
+        $instance->productHeight = $productHeight;
+        $instance->productWidth = $productWidth;
+        $instance->productLength = $productLength;
+        $instance->productWeight = $productWeight;
+        $instance->productSize = $productSize;
+
+        return $instance;
     }
+
 
     public function getSKU()
     {
-        return $this->SKU;
+        return $this->productSKU;
     }
     public function getName()
     {
-        return $this->Name;
+        return $this->productName;
     } 
     public function getPrice()
     {
-        return $this->Price;
+        return $this->productPrice;
     }
     public function getProductType()
     {
@@ -44,60 +48,60 @@ class Product {
     }
     public function getHeight()
     {
-        return $this->Height;
+        return $this->productHeight;
     }
     public function getWidth()
     {
-        return $this->Width;
+        return $this->productWidth;
     }
     public function getLength()
     {
-        return $this->Length;
+        return $this->productLength;
     }
     public function getWeight()
     {
-        return $this->Weight;
+        return $this->productWeight;
     }
     public function getSize()
     {
-        return $this->Size;
+        return $this->productSize;
     }
 
-    public function setSKU($SKU)
+    public function setSKU(String $SKU)
     {
-        $this->SKU = $SKU;
+        $this->productSKU = $SKU;
     }
-    public function setName($Name)
+    public function setName(String $Name)
     {
-        $this->Name = $Name;
+        $this->productName = $Name;
     }
-    public function setPrice($Price)
+    public function setPrice(Float $Price)
     {
-        $this->Price = $Price;
+        $this->productPrice = $Price;
     }
-    public function setProductType($ProductType)
+    public function setProductType(String $ProductType)
     {
         $this->ProductType = $ProductType;
     }
-    public function setHeight($Height)
+    public function setHeight(Float $Height)
     {
-        $this->Height = $Height;
+        $this->productHeight = $Height;
     }
-    public function setWidth($Width)
+    public function setWidth(Float $Width)
     {
-        $this->Width = $Width;
+        $this->productWidth = $Width;
     }
-    public function setLength($Length)
+    public function setLength(Float $Length)
     {
-        $this->Length = $Length;
+        $this->productLength = $Length;
     }
-    public function setWeight($Weight)
+    public function setWeight(Float $Weight)
     {
-        $this->Weight = $Weight;
+        $this->productWeight = $Weight;
     }
-    public function setSize($Size)
+    public function setSize(Float $Size)
     {
-        $this->Size = $Size;
+        $this->productSize = $Size;
     }
    
 }

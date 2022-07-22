@@ -2,14 +2,18 @@
 
 namespace Src\Services;
 
+use Src\Models\Product;
+
 interface ProductService
 {
 
     public function findAll();
 
-    public function find($id);
+    public function find(int $id);
 
-    public function insert(array $input);
+    public function findBySku(String $sku);
 
-    public function delete($id);
+    public function insert(Product $product);
+
+    public function delete(int $id);
 }
