@@ -1,7 +1,7 @@
 <?php
 namespace Src\Controller;
 
-use Src\Services\ProductService;
+use Src\ServiceImpls\ProductServiceImpl;
 
 class ProductController {
 
@@ -15,7 +15,7 @@ class ProductController {
         $this->db = $db;
         $this->requestMethod = $requestMethod;
 
-        $this->productService = new ProductService($this->db);
+        $this->productService = new ProductServiceImpl($this->db);
     }
 
     public function processRequest()
